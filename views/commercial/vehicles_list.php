@@ -86,7 +86,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="index.php?page=vehicle_edit&id=<?php echo $v['id']; ?>" class="btn btn-small btn-warning">Modifier</a>
+                                    <a href="index.php?page=commercial_vehicle_edit&id=<?php echo $v['id']; ?>" class="btn btn-small btn-warning">Modifier</a>
                                     
                                 </td>
                             </tr>
