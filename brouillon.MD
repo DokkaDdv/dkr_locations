@@ -24,6 +24,8 @@ compte client et com
 page   commercial et client
 reserver une voiture
 menu
+create compte
+barre de recherche
 
 NOTES:
 

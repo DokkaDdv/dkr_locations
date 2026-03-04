@@ -60,13 +60,4 @@ if (isset($_GET['message'])) {
     }
 }
 
-
-// les messages
-if (isset($_GET['message'])) {
-    switch ($_GET['message']) {
-        case 'update_success':
-            $message = 'Véhicule modifié avec succès';
-            break;
-    }
-}
 ?>
