@@ -30,11 +30,11 @@
                 <p class="stat-number"><?php echo $totalVehicles; ?></p>
             </div>
             <div class="stat-card">
-                <h3>Disponibles</h3>
+                <h3>Disponible</h3>
                 <p class="stat-number"><?php echo $disponibles; ?></p>
             </div>
             <div class="stat-card">
-                <h3>Réservés</h3>
+                <h3>Réservé</h3>
                 <p class="stat-number"><?php echo $reserves; ?></p>
             </div>
             <div class="stat-card">
