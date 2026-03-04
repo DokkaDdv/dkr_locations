@@ -34,6 +34,11 @@ class User {
         return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
     }
     
+    // verif si est commercial
+    public function isCommercial() {
+        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'commercial';
+    }
+    
     // se deconnecter
     public function logout() {
         session_destroy();

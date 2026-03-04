@@ -27,7 +27,8 @@ CREATE TABLE vehicles (
 
 -- Admin par defaut
 INSERT INTO users (email, password, role) VALUES 
-('admin@dkr.com', MD5('admin123'), 'admin');
+('admin@dkr.com', MD5('admin123'), 'admin'),
+('commercial@dkr.com', MD5('commercial123'), 'commercial');
 
 -- Vehicles
 INSERT INTO vehicles (marque, modele, immatriculation, tarif, kilometrage, statut) VALUES
