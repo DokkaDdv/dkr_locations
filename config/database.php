@@ -1,17 +1,16 @@
 <?php
 // config db
 
-$host = 'localhost';
-$dbname = 'dkr_locations';
-$username = 'root';
-$password = '';
+$host = 'db.eaqsguvphrgangmbwcdr.supabase.co';
+$port = '5432';
+$dbname = 'postgres';
+$username = 'postgres';
+$password = '899ber8GiD9XAe';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    // forcer utf8mb4
-    $pdo->exec("SET NAMES utf8mb4");
 } catch(PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
