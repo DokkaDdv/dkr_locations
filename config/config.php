@@ -11,7 +11,7 @@ define('BASE_PATH', dirname(__DIR__));
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'];
 $script = dirname($_SERVER['SCRIPT_NAME']);
-define('BASE_URL', $protocol . '://' . $host . $script);
+define('BASE_URL', $protocol . '://' . $host . ($script === '/' ? '' : $script));
 
 // load la db
 require_once BASE_PATH . '/config/database.php';
