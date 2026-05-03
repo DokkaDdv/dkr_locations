@@ -6,4 +6,6 @@ RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/
 WORKDIR /app
 COPY . /app/
 
-CMD php -S 0.0.0.0:${PORT:-80} -t /app
+EXPOSE 8080
+
+CMD php -S 0.0.0.0:${PORT:-8080} -t /app
