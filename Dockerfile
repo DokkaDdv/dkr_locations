@@ -1,10 +1,9 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
 RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
-COPY . /var/www/html/
+WORKDIR /app
+COPY . /app/
 
-RUN chown -R www-data:www-data /var/www/html
-
-EXPOSE 80
+CMD php -S 0.0.0.0:${PORT:-80} -t /app
