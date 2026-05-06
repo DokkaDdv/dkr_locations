@@ -30,3 +30,8 @@ Ajouter getAvailable() dans Vehicle.php
 Compléter la logique de création/gestion des réservations
 Corriger les typos et noms de variables
 Voulez-vous que je complète et corrige ce contrôleur ?
+
+
+GERER SEULEMENT LES LOCATIONS,
+
+le client voit les vehicules, choisie, et ecris la date de fin de sa location, qui est insert dans la table, les vehicules affichées sont seulement ceux qui : date demandé au debut par le client sur linterface > date de fin.
