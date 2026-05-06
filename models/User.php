@@ -38,7 +38,28 @@ class User {
     public function isCommercial() {
         return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'commercial';
     }
-    
+
+    // verif si est client
+    public function isClient() {
+        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'client';
+    }
+
+    // creer un compte
+    public function register($email, $password, $role) {
+        $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role) VALUES (?, MD5(?), ?)");
+        return $stmt->execute([$email, $password, $role]);
+    }
+
+    // recuperer les infos d'un user
+    public function getUserInfo() {
+        if ($this->isLoggedIn()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = ?");
+            $stmt->execute([$_SESSION['user_id']]);
+            return $stmt->fetch();
+        }
+        return null;
+    }
+
     // se deconnecter
     public function logout() {
         session_destroy();
