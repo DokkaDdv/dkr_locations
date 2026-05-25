@@ -16,6 +16,12 @@
     </div>
     
     <div class="container">
+        <div class="nav-menu">
+            <a href="index.php?page=commercial_vehicles_list" class="btn btn-primary">Véhicules</a>
+            <a href="index.php?page=commercial_locations" class="btn btn-secondary">Locations</a>
+            <a href="index.php?page=commercial_clients" class="btn btn-secondary">Clients</a>
+        </div>
+
         <!-- Statistiques -->
         <div class="stats">
             <div class="stat-card">
@@ -62,7 +68,6 @@
                         <th>Modèle</th>
                         <th>Immatriculation</th>
                         <th>Tarif</th>
-                        <th>Kilométrage</th>
                         <th>Statut</th>
                         <th>Actions</th>
                     </tr>
@@ -79,7 +84,6 @@
                                 <td><?php echo htmlspecialchars($v['modele']); ?></td>
                                 <td><?php echo htmlspecialchars($v['immatriculation']); ?></td>
                                 <td><?php echo number_format($v['tarif'], 2); ?> €</td>
-                                <td><?php echo number_format($v['kilometrage'], 0, ',', ' '); ?> km</td>
                                 <td>
                                     <span class="badge badge-<?php echo $v['statut']; ?>">
                                         <?php echo ucfirst($v['statut']); ?>

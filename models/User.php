@@ -66,6 +66,19 @@ class User {
         return null;
     }
 
+    // liste des clients
+    public function getClients() {
+        $stmt = $this->pdo->query(
+            "SELECT u.*, COUNT(l.id_location) as nb_locations
+             FROM users u
+             LEFT JOIN location l ON l.id_user = u.id
+             WHERE u.role = 'client'
+             GROUP BY u.id
+             ORDER BY u.created_at DESC"
+        );
+        return $stmt->fetchAll();
+    }
+
     // se deconnecter
     public function logout() {
         session_destroy();

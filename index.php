@@ -91,7 +91,34 @@ switch ($page) {
         require_once __DIR__ . '/controllers/CommercialController.php';
         require_once __DIR__ . '/views/commercial/vehicle_edit.php';
         break;
-        
+
+    case 'commercial_locations':
+        if (!$user->isCommercial()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/CommercialController.php';
+        require_once __DIR__ . '/views/commercial/locations.php';
+        break;
+
+    case 'commercial_clients':
+        if (!$user->isCommercial()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/CommercialController.php';
+        require_once __DIR__ . '/views/commercial/clients.php';
+        break;
+
+    case 'admin_clients':
+        if (!$user->isAdmin()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/AdminController.php';
+        require_once __DIR__ . '/views/admin/clients.php';
+        break;
+
     default:
         require_once __DIR__ . '/controllers/AuthController.php';
         require_once __DIR__ . '/views/login.php';

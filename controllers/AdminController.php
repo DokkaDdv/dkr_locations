@@ -64,6 +64,12 @@ if (isset($_GET['delete'])) {
 // get les vehicles
 $vehicles = $vehicle->getAll();
 
+// liste clients
+$clients = [];
+if ($page === 'admin_clients') {
+    $clients = $user->getClients();
+}
+
 // les stats
 $totalVehicles = $vehicle->countAll();
 $disponibles = $vehicle->countByStatus('disponible');
