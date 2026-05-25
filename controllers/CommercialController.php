@@ -48,6 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_location'])) {
     }
 }
 
+// creer un client
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_client'])) {
+    $email     = $_POST['email'] ?? '';
+    $password  = $_POST['password'] ?? '';
+    $nom       = $_POST['nom'] ?? '';
+    $prenom    = $_POST['prenom'] ?? '';
+    $telephone = $_POST['telephone'] ?? '';
+
+    if ($email && $password && $nom && $prenom) {
+        if ($user->register($email, $password, 'client', $nom, $prenom, $telephone)) {
+            header('Location: index.php?page=commercial_clients&message=client_created');
+            exit;
+        }
+        $error = 'Cet email est déjà utilisé';
+    } else {
+        $error = 'Nom, prénom, email et mot de passe sont obligatoires';
+    }
+}
+
 // modifier vehicle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_vehicle'])) {
     $id = $_POST['id'] ?? 0;
@@ -95,6 +114,7 @@ if (isset($_GET['message'])) {
         'update_success'   => 'Véhicule modifié avec succès',
         'create_success'   => 'Location créée avec succès',
         'terminate_success'=> 'Location clôturée, véhicule remis en disponible',
+        'client_created'   => 'Client créé avec succès',
     ];
     $message = $msgs[$_GET['message']] ?? '';
 }

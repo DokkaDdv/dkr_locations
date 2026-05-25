@@ -22,6 +22,39 @@
             <a href="index.php?page=commercial_clients" class="btn btn-primary">Clients</a>
         </div>
 
+        <!-- Creer un client -->
+        <div class="card">
+            <h2>Créer un client</h2>
+            <form method="POST" action="index.php?page=commercial_clients">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Prénom :</label>
+                        <input type="text" name="prenom" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nom :</label>
+                        <input type="text" name="nom" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email :</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Téléphone :</label>
+                        <input type="tel" name="telephone">
+                    </div>
+                </div>
+                <div class="form-group" style="max-width: 400px;">
+                    <label>Mot de passe :</label>
+                    <input type="text" name="password" required placeholder="Le client pourra se connecter avec ce mot de passe">
+                </div>
+                <button type="submit" name="create_client" class="btn btn-primary">Créer le client</button>
+            </form>
+        </div>
+
+        <!-- Liste clients -->
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2>Liste des clients (<?php echo count($clients); ?>)</h2>
