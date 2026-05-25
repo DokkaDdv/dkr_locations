@@ -60,20 +60,14 @@
                         </div>
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="kilometrage">Kilométrage :</label>
-                            <input type="number" id="kilometrage" name="kilometrage" value="<?php echo $vehicleToEdit['kilometrage']; ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="statut">Statut :</label>
-                            <select id="statut" name="statut" required>
-                                <option value="disponible" <?php echo $vehicleToEdit['statut'] === 'disponible' ? 'selected' : ''; ?>>Disponible</option>
-                                <option value="reserve" <?php echo $vehicleToEdit['statut'] === 'reserve' ? 'selected' : ''; ?>>Réservé</option>
-                                <option value="en_location" <?php echo $vehicleToEdit['statut'] === 'en_location' ? 'selected' : ''; ?>>En location</option>
-                                <option value="maintenance" <?php echo $vehicleToEdit['statut'] === 'maintenance' ? 'selected' : ''; ?>>En maintenance</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label for="statut">Statut :</label>
+                        <select id="statut" name="statut" required>
+                            <option value="disponible" <?php echo $vehicleToEdit['statut'] === 'disponible' ? 'selected' : ''; ?>>Disponible</option>
+                            <option value="reserve" <?php echo $vehicleToEdit['statut'] === 'reserve' ? 'selected' : ''; ?>>Réservé</option>
+                            <option value="en_location" <?php echo $vehicleToEdit['statut'] === 'en_location' ? 'selected' : ''; ?>>En location</option>
+                            <option value="maintenance" <?php echo $vehicleToEdit['statut'] === 'maintenance' ? 'selected' : ''; ?>>En maintenance</option>
+                        </select>
                     </div>
                     
                     <div style="margin-top: 20px;">

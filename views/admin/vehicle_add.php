@@ -46,20 +46,14 @@
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="kilometrage">Kilométrage :</label>
-                        <input type="number" id="kilometrage" name="kilometrage" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="statut">Statut :</label>
-                        <select id="statut" name="statut" required>
-                            <option value="disponible">Disponible</option>
-                            <option value="reserve">Réservé</option>
-                            <option value="en_location">En location</option>
-                            <option value="maintenance">En maintenance</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="statut">Statut :</label>
+                    <select id="statut" name="statut" required>
+                        <option value="disponible">Disponible</option>
+                        <option value="reserve">Réservé</option>
+                        <option value="en_location">En location</option>
+                        <option value="maintenance">En maintenance</option>
+                    </select>
                 </div>
                 
                 <div style="margin-top: 20px;">

@@ -23,10 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_vehicle'])) {
     $modele = $_POST['modele'] ?? '';
     $immatriculation = $_POST['immatriculation'] ?? '';
     $tarif = $_POST['tarif'] ?? 0;
-    $kilometrage = $_POST['kilometrage'] ?? 0;
     $statut = $_POST['statut'] ?? 'disponible';
-    
-    if ($vehicle->add($marque, $modele, $immatriculation, $tarif, $kilometrage, $statut)) {
+
+    if ($vehicle->add($marque, $modele, $immatriculation, $tarif, $statut)) {
         header('Location: index.php?page=vehicles_list&message=add_success');
         exit;
     } else {
@@ -41,10 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_vehicle'])) {
     $modele = $_POST['modele'] ?? '';
     $immatriculation = $_POST['immatriculation'] ?? '';
     $tarif = $_POST['tarif'] ?? 0;
-    $kilometrage = $_POST['kilometrage'] ?? 0;
     $statut = $_POST['statut'] ?? 'disponible';
-    
-    if ($vehicle->update($id, $marque, $modele, $immatriculation, $tarif, $kilometrage, $statut)) {
+
+    if ($vehicle->update($id, $marque, $modele, $immatriculation, $tarif, $statut)) {
         header('Location: index.php?page=vehicles_list&message=update_success');
         exit;
     } else {

@@ -62,7 +62,6 @@
                         <th>Modèle</th>
                         <th>Immatriculation</th>
                         <th>Tarif</th>
-                        <th>Kilométrage</th>
                         <th>Statut</th>
                         <th>Actions</th>
                     </tr>
@@ -79,7 +78,6 @@
                                 <td><?php echo htmlspecialchars($v['modele']); ?></td>
                                 <td><?php echo htmlspecialchars($v['immatriculation']); ?></td>
                                 <td><?php echo number_format($v['tarif'], 2); ?> €</td>
-                                <td><?php echo number_format($v['kilometrage'], 0, ',', ' '); ?> km</td>
                                 <td>
                                     <span class="badge badge-<?php echo $v['statut']; ?>">
                                         <?php echo ucfirst($v['statut']); ?>

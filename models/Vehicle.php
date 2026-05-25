@@ -22,15 +22,15 @@ class Vehicle {
     }
     
     // ajouter vehicle
-    public function add($marque, $modele, $immatriculation, $tarif, $kilometrage, $statut) {
-        $stmt = $this->pdo->prepare("INSERT INTO vehicles (marque, modele, immatriculation, tarif, kilometrage, statut) VALUES (?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([$marque, $modele, $immatriculation, $tarif, $kilometrage, $statut]);
+    public function add($marque, $modele, $immatriculation, $tarif, $statut) {
+        $stmt = $this->pdo->prepare("INSERT INTO vehicles (marque, modele, immatriculation, tarif, statut) VALUES (?, ?, ?, ?, ?)");
+        return $stmt->execute([$marque, $modele, $immatriculation, $tarif, $statut]);
     }
-    
+
     // modifier vehicle
-    public function update($id, $marque, $modele, $immatriculation, $tarif, $kilometrage, $statut) {
-        $stmt = $this->pdo->prepare("UPDATE vehicles SET marque = ?, modele = ?, immatriculation = ?, tarif = ?, kilometrage = ?, statut = ? WHERE id = ?");
-        return $stmt->execute([$marque, $modele, $immatriculation, $tarif, $kilometrage, $statut, $id]);
+    public function update($id, $marque, $modele, $immatriculation, $tarif, $statut) {
+        $stmt = $this->pdo->prepare("UPDATE vehicles SET marque = ?, modele = ?, immatriculation = ?, tarif = ?, statut = ? WHERE id = ?");
+        return $stmt->execute([$marque, $modele, $immatriculation, $tarif, $statut, $id]);
     }
     
     // supprimer vehicle
@@ -66,7 +66,7 @@ class Vehicle {
             "SELECT v.* FROM vehicles v
              WHERE v.statut NOT IN ('maintenance', 'reserve')
              AND v.id NOT IN (
-                 SELECT vehicle_id FROM location WHERE date_fin >= ?
+                 SELECT id_vehicle FROM location WHERE date_fin >= ?
              )
              ORDER BY v.id DESC"
         );

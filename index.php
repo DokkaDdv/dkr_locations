@@ -10,7 +10,7 @@ $user = new User($pdo);
 $page = $_GET['page'] ?? 'login';
 
 // check si connecté
-if ($page !== 'login' && !$user->isLoggedIn()) {
+if ($page !== 'login' && $page !== 'register' && !$user->isLoggedIn()) {
     $page = 'login';
 }
 

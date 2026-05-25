@@ -84,7 +84,6 @@
                         <th>Modèle</th>
                         <th>Immatriculation</th>
                         <th>Tarif / jour</th>
-                        <th>Kilométrage</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -95,7 +94,6 @@
                         <td><?php echo htmlspecialchars($v['modele']); ?></td>
                         <td><?php echo htmlspecialchars($v['immatriculation']); ?></td>
                         <td><strong style="color: #00d4ff;"><?php echo number_format($v['tarif'], 2); ?> €</strong></td>
-                        <td><?php echo number_format($v['kilometrage'], 0, ',', ' '); ?> km</td>
                         <td>
                             <a href="index.php?page=client&vehicle_id=<?php echo $v['id']; ?>&date_debut=<?php echo urlencode($date_debut); ?>" class="btn btn-small btn-primary">Louer</a>
                         </td>

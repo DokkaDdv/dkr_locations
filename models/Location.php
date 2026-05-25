@@ -9,7 +9,7 @@ class Location {
     }
 
     public function create($user_id, $vehicle_id, $date_debut, $date_fin) {
-        $stmt = $this->pdo->prepare("INSERT INTO location (user_id, vehicle_id, date_debut, date_fin) VALUES (?, ?, ?, ?)");
+        $stmt = $this->pdo->prepare("INSERT INTO location (id_user, id_vehicle, date_debut, date_fin) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$user_id, $vehicle_id, $date_debut, $date_fin]);
     }
 
@@ -17,8 +17,8 @@ class Location {
         $stmt = $this->pdo->prepare(
             "SELECT l.*, v.marque, v.modele, v.immatriculation, v.tarif
              FROM location l
-             JOIN vehicles v ON l.vehicle_id = v.id
-             WHERE l.user_id = ?
+             JOIN vehicles v ON l.id_vehicle = v.id
+             WHERE l.id_user = ?
              ORDER BY l.created_at DESC"
         );
         $stmt->execute([$user_id]);
@@ -29,7 +29,7 @@ class Location {
         $stmt = $this->pdo->prepare(
             "SELECT l.*, v.marque, v.modele, v.immatriculation, v.tarif
              FROM location l
-             JOIN vehicles v ON l.vehicle_id = v.id
+             JOIN vehicles v ON l.id_vehicle = v.id
              WHERE l.id_location = ?"
         );
         $stmt->execute([$id]);
