@@ -16,7 +16,13 @@
     </div>
     
     <div class="container">
-        <?php 
+        <div class="nav-menu">
+            <a href="index.php?page=commercial_vehicles_list" class="btn btn-secondary">Véhicules</a>
+            <a href="index.php?page=commercial_locations" class="btn btn-secondary">Locations</a>
+            <a href="index.php?page=commercial_clients" class="btn btn-secondary">Clients</a>
+        </div>
+
+        <?php
         // Récupérer le véhicule à modifier
         $id = $_GET['id'] ?? 0;
         $vehicleToEdit = $vehicle->getById($id);

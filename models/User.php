@@ -66,6 +66,17 @@ class User {
         return null;
     }
 
+    // modifier le mot de passe
+    public function updatePassword($user_id, $old_password, $new_password) {
+        $stmt = $this->pdo->prepare("SELECT id FROM users WHERE id = ? AND password = MD5(?)");
+        $stmt->execute([$user_id, $old_password]);
+        if (!$stmt->fetch()) {
+            return false;
+        }
+        $stmt2 = $this->pdo->prepare("UPDATE users SET password = MD5(?) WHERE id = ?");
+        return $stmt2->execute([$new_password, $user_id]);
+    }
+
     // liste des clients
     public function getClients() {
         $stmt = $this->pdo->query(

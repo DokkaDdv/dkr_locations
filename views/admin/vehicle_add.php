@@ -16,6 +16,11 @@
     </div>
     
     <div class="container">
+        <div class="nav-menu">
+            <a href="index.php?page=vehicles_list" class="btn btn-secondary">Véhicules</a>
+            <a href="index.php?page=admin_clients" class="btn btn-secondary">Clients</a>
+        </div>
+
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>

@@ -7,15 +7,33 @@ require_once __DIR__ . '/models/User.php';
 $user = new User($pdo);
 
 // get la page a afficher
-$page = $_GET['page'] ?? 'login';
+$page = $_GET['page'] ?? 'home';
 
-// check si connecté
-if ($page !== 'login' && $page !== 'register' && !$user->isLoggedIn()) {
-    $page = 'login';
+// si deja connecte et sur home/login/register, rediriger vers le bon dashboard
+if (in_array($page, ['home', 'login', 'register']) && $user->isLoggedIn()) {
+    if ($user->isAdmin()) {
+        header('Location: index.php?page=vehicles_list');
+    } elseif ($user->isCommercial()) {
+        header('Location: index.php?page=commercial');
+    } else {
+        header('Location: index.php?page=client');
+    }
+    exit;
+}
+
+// check si connecté pour les pages protégées
+$pages_publiques = ['home', 'login', 'register'];
+if (!in_array($page, $pages_publiques) && !$user->isLoggedIn()) {
+    header('Location: index.php?page=home');
+    exit;
 }
 
 // router
 switch ($page) {
+    case 'home':
+        require_once __DIR__ . '/views/home.php';
+        break;
+
     case 'login':
         require_once __DIR__ . '/controllers/AuthController.php';
         require_once __DIR__ . '/views/login.php';
