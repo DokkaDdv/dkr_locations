@@ -32,6 +32,10 @@
             
             <p class="info">Compte admin par défaut : admin@dkr.com / admin123</p>
             <p class="info">Compte commercial par défaut : commercial@dkr.com / commercial123</p>
+
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="index.php?page=register" style="color: #00d4ff;">Pas encore client ? Créer un compte</a>
+            </p>
         </div>
     </div>
 </body>

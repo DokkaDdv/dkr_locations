@@ -1,84 +1,61 @@
-<?php 
+<?php
 // controller client
 
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Vehicle.php';
+require_once __DIR__ . '/../models/Location.php';
 
 $user = new User($pdo);
-$vehicle = new Vehicle($pdo);
+$vehicleModel = new Vehicle($pdo);
+$locationModel = new Location($pdo);
 
-// check si client
-if (!$user->isLoggedIn()) {
+if (!$user->isLoggedIn() || !$user->isClient()) {
     header('Location: index.php?page=login');
-    exit;
-}
-
-// Vérifier que l'utilisateur n'est pas admin
-if ($user->isAdmin()) {
-    header('Location: index.php?page=vehicles_list');
     exit;
 }
 
 $message = '';
 $error = '';
-$vehicles = [];
-$reservations = [];
+$vehicle_detail = null;
 
-//afficher les vehicules disponibles 
-if ($user->isClient()) {
-    $vehicles = $vehicle->getAvailable();
+$date_debut = $_GET['date_debut'] ?? date('Y-m-d');
+
+// creer une location
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['louer'])) {
+    $vehicle_id = (int)($_POST['vehicle_id'] ?? 0);
+    $date_debut_post = $_POST['date_debut'] ?? '';
+    $date_fin = $_POST['date_fin'] ?? '';
+
+    if ($vehicle_id && $date_debut_post && $date_fin && $date_fin > $date_debut_post) {
+        if ($locationModel->create($_SESSION['user_id'], $vehicle_id, $date_debut_post, $date_fin)) {
+            $stmt = $pdo->prepare("UPDATE vehicles SET statut = 'en_location' WHERE id = ?");
+            $stmt->execute([$vehicle_id]);
+            header('Location: index.php?page=client&success=1');
+            exit;
+        } else {
+            $error = 'Erreur lors de la création de la location';
+        }
+    } else {
+        $error = 'Les dates sont invalides. La date de fin doit être après la date de début.';
+    }
 }
 
-// details vehicule
+// detail vehicule pour le formulaire de location
 if (isset($_GET['vehicle_id'])) {
-    $vehicle_id = $_GET['vehicle_id'];
-    $vehicle_details = $vehicle->getById($vehicle_id);
-    if (!$vehicle_details) {
+    $vehicle_detail = $vehicleModel->getById((int)$_GET['vehicle_id']);
+    if (!$vehicle_detail) {
         $error = 'Véhicule non trouvé';
-    }   else {
-        $vehicle = $vehicle_details;
-    }   
-}
-// creer une reservation
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_reservation'])) {
-    require_once __DIR__ . '/../models/Reservation.php';
-    $reservation = new Reservation($pdo);
-    $vehicle_id = $_POST['vehicule_id'] ?? 0;
-    $start_date = $_POST['start_date'] ?? '';
-    $end_date = $_POST['end_date'] ?? '';
-}
-
-// liste des reservations d'un client
-if ($user->isClient()) {
-    require_once __DIR__ . '/../models/Reservation.php';
-    $reservation = new Reservation($pdo);
-    $reservations = $reservation->getByUserID($_SESSION['user_id']);
-}
-
-// details reservation
-if (isset($_GET['reservation_id'])) {
-    require_once __DIR__ . '/../models/Reservation.php';
-    $reservation = new Reservation($pdo);
-    $reservation_id = $_GET['reservation_id'];
-    $reservation_details = $reservation->getByID($reservation_id);
-    if (!$reservation_details) {
-        $error = 'Réservation non trouvée';
-    } else {
-        $reservation = $reservation_details;
     }
 }
 
-// annuler reservation
-if (isset($_GET['cancel_reservation'])) {
-    require_once __DIR__ . '/../models/Reservation.php';
-    $reservation = new Reservation($pdo);
-    $reservation_id = $_GET['cancel_reservation'];
-    if ($reservation->cancel($reservation_id)) {
-        header('Location: index.php?page=client_dashboard&message=cancel_success');
-        exit;
-    } else {
-        $error = 'Erreur lors de l\'annulation de la réservation';
-    }
+if (isset($_GET['success'])) {
+    $message = 'Votre location a été créée avec succès !';
 }
 
+// vehicules disponibles pour la date demandee
+$vehicles = $vehicleModel->getAvailableByDate($date_debut);
+
+// historique locations du client
+$locations = $locationModel->getByUserId($_SESSION['user_id']);
+?>

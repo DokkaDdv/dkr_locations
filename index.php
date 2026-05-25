@@ -49,6 +49,21 @@ switch ($page) {
         require_once __DIR__ . '/views/admin/vehicle_edit.php';
         break;
     
+    // Pages Client
+    case 'client':
+        if (!$user->isClient()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/ClientController.php';
+        require_once __DIR__ . '/views/client/vehicle_list.php';
+        break;
+
+    case 'register':
+        require_once __DIR__ . '/controllers/AuthController.php';
+        require_once __DIR__ . '/views/register.php';
+        break;
+
     // Pages Commercial
     case 'commercial':
         if (!$user->isCommercial()) {

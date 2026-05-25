@@ -56,7 +56,21 @@ class Vehicle {
 
     // lister les vehicules disponibles
     public function getAvailable() {
-        $stmt = $this->pdo->query("SELECT * FROM vehicles WHERE status = 'disponible' ORDER BY id DESC");
+        $stmt = $this->pdo->query("SELECT * FROM vehicles WHERE statut = 'disponible' ORDER BY id DESC");
+        return $stmt->fetchAll();
+    }
+
+    // vehicules disponibles a partir d'une date (exclut ceux en location jusqu'a cette date)
+    public function getAvailableByDate($date_debut) {
+        $stmt = $this->pdo->prepare(
+            "SELECT v.* FROM vehicles v
+             WHERE v.statut NOT IN ('maintenance', 'reserve')
+             AND v.id NOT IN (
+                 SELECT vehicle_id FROM location WHERE date_fin >= ?
+             )
+             ORDER BY v.id DESC"
+        );
+        $stmt->execute([$date_debut]);
         return $stmt->fetchAll();
     }
 

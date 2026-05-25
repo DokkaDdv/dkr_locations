@@ -45,9 +45,9 @@ class User {
     }
 
     // creer un compte
-    public function register($email, $password, $role) {
-        $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role) VALUES (?, MD5(?), ?)");
-        return $stmt->execute([$email, $password, $role]);
+    public function register($email, $password, $role, $nom = '', $prenom = '', $telephone = '') {
+        $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role, nom, prenom, telephone) VALUES (?, MD5(?), ?, ?, ?, ?)");
+        return $stmt->execute([$email, $password, $role, $nom, $prenom, $telephone]);
     }
 
     // recuperer les infos d'un user
