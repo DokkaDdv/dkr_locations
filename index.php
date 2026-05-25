@@ -6,6 +6,13 @@ require_once __DIR__ . '/models/User.php';
 
 $user = new User($pdo);
 
+// deconnexion en priorite absolue
+if (isset($_GET['logout'])) {
+    $user->logout();
+    header('Location: index.php?page=home');
+    exit;
+}
+
 // get la page a afficher
 $page = $_GET['page'] ?? 'home';
 

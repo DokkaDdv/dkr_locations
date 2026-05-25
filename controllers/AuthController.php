@@ -47,10 +47,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     }
 }
 
-// deconnexion
-if (isset($_GET['logout'])) {
-    $user->logout();
-    header('Location: index.php?page=login');
-    exit;
-}
 ?>
