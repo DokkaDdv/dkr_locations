@@ -18,7 +18,7 @@ if (!$user->isLoggedIn() || !$user->isCommercial()) {
 $message = '';
 $error = '';
 
-// terminer une location
+// terminer une location en cours
 if (isset($_GET['terminate'])) {
     $id_loc = (int)$_GET['terminate'];
     if ($locationModel->terminate($id_loc)) {
@@ -26,6 +26,33 @@ if (isset($_GET['terminate'])) {
         exit;
     }
     $error = 'Erreur lors de la clôture de la location';
+}
+
+// modifier une location
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_location'])) {
+    $id_loc    = (int)($_POST['id_location'] ?? 0);
+    $date_debut = $_POST['date_debut'] ?? '';
+    $date_fin   = $_POST['date_fin'] ?? '';
+
+    if ($id_loc && $date_debut && $date_fin && $date_fin > $date_debut) {
+        if ($locationModel->update($id_loc, $date_debut, $date_fin)) {
+            header('Location: index.php?page=commercial_locations&message=update_location_success');
+            exit;
+        }
+        $error = 'Erreur lors de la modification';
+    } else {
+        $error = 'Dates invalides';
+    }
+}
+
+// annuler une location future
+if (isset($_GET['cancel_location'])) {
+    $id_loc = (int)$_GET['cancel_location'];
+    if ($locationModel->cancel($id_loc)) {
+        header('Location: index.php?page=commercial_locations&message=cancel_success');
+        exit;
+    }
+    $error = 'Erreur lors de l\'annulation de la location';
 }
 
 // creer une location manuellement
@@ -113,7 +140,9 @@ if (isset($_GET['message'])) {
     $msgs = [
         'update_success'   => 'Véhicule modifié avec succès',
         'create_success'   => 'Location créée avec succès',
-        'terminate_success'=> 'Location clôturée, véhicule remis en disponible',
+        'terminate_success' => 'Location clôturée, véhicule remis en disponible',
+        'cancel_success'         => 'Location annulée, véhicule remis en disponible',
+        'update_location_success' => 'Location modifiée avec succès',
         'client_created'   => 'Client créé avec succès',
     ];
     $message = $msgs[$_GET['message']] ?? '';

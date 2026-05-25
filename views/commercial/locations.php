@@ -49,6 +49,46 @@
             </div>
         </div>
 
+        <?php
+        // charger la location a modifier si demande
+        $locationToEdit = null;
+        if (isset($_GET['edit'])) {
+            require_once BASE_PATH . '/models/Location.php';
+            $tmp = new Location($pdo);
+            $locationToEdit = $tmp->getById((int)$_GET['edit']);
+        }
+        ?>
+
+        <?php if ($locationToEdit): ?>
+        <!-- Formulaire modification location -->
+        <div class="card" style="border-color: #ff9800;">
+            <h2>Modifier la location</h2>
+            <p style="color: #b0b0b0; margin-bottom: 15px;">
+                <?php
+                    $nom = trim(($locationToEdit['prenom'] ?? '') . ' ' . ($locationToEdit['nom'] ?? ''));
+                    echo htmlspecialchars(($nom ?: $locationToEdit['email']) . ' — ' . $locationToEdit['marque'] . ' ' . $locationToEdit['modele']);
+                ?>
+            </p>
+            <form method="POST" action="index.php?page=commercial_locations">
+                <input type="hidden" name="id_location" value="<?php echo $locationToEdit['id_location']; ?>">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date de début :</label>
+                        <input type="date" name="date_debut" value="<?php echo $locationToEdit['date_debut']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date de fin :</label>
+                        <input type="date" name="date_fin" value="<?php echo $locationToEdit['date_fin']; ?>" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" name="update_location" class="btn btn-warning">Enregistrer</button>
+                    <a href="index.php?page=commercial_locations" class="btn btn-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+        <?php endif; ?>
+
         <!-- Creer une location -->
         <div class="card">
             <h2>Créer une location</h2>
@@ -131,12 +171,22 @@
                                 echo number_format($loc['tarif'] * max(1, $jours), 2) . ' €';
                             ?>
                         </td>
-                        <td>
-                            <a href="index.php?page=commercial_locations&terminate=<?php echo $loc['id_location']; ?>"
-                               class="btn btn-small btn-danger"
-                               onclick="return confirm('Clôturer cette location et remettre le véhicule en disponible ?')">
-                                Terminer
-                            </a>
+                        <td style="white-space: nowrap;">
+                            <a href="index.php?page=commercial_locations&edit=<?php echo $loc['id_location']; ?>"
+                               class="btn btn-small btn-secondary">Modifier</a>
+                            <?php if (strtotime($loc['date_debut']) <= strtotime('today')): ?>
+                                <a href="index.php?page=commercial_locations&terminate=<?php echo $loc['id_location']; ?>"
+                                   class="btn btn-small btn-warning"
+                                   onclick="return confirm('Clôturer cette location et remettre le véhicule en disponible ?')">
+                                    Terminer
+                                </a>
+                            <?php else: ?>
+                                <a href="index.php?page=commercial_locations&cancel_location=<?php echo $loc['id_location']; ?>"
+                                   class="btn btn-small btn-danger"
+                                   onclick="return confirm('Annuler cette location ? Le véhicule sera remis en disponible.')">
+                                    Annuler
+                                </a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>

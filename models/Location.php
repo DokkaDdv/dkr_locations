@@ -62,11 +62,30 @@ class Location {
         return $stmt->fetchAll();
     }
 
+    // terminer une location en cours (date_debut <= aujourd'hui)
     public function terminate($id_location) {
         $loc = $this->getById($id_location);
         if ($loc) {
-            // GREATEST evite de violer la contrainte date_fin >= date_debut
-            $stmt = $this->pdo->prepare("UPDATE location SET date_fin = GREATEST(CURRENT_DATE, date_debut) WHERE id_location = ?");
+            $stmt = $this->pdo->prepare("UPDATE location SET date_fin = CURRENT_DATE WHERE id_location = ?");
+            $stmt->execute([$id_location]);
+            $stmt2 = $this->pdo->prepare("UPDATE vehicles SET statut = 'disponible' WHERE id = ?");
+            $stmt2->execute([$loc['id_vehicle']]);
+            return true;
+        }
+        return false;
+    }
+
+    // modifier une location
+    public function update($id_location, $date_debut, $date_fin) {
+        $stmt = $this->pdo->prepare("UPDATE location SET date_debut = ?, date_fin = ? WHERE id_location = ?");
+        return $stmt->execute([$date_debut, $date_fin, $id_location]);
+    }
+
+    // annuler une location future (date_debut > aujourd'hui)
+    public function cancel($id_location) {
+        $loc = $this->getById($id_location);
+        if ($loc) {
+            $stmt = $this->pdo->prepare("DELETE FROM location WHERE id_location = ?");
             $stmt->execute([$id_location]);
             $stmt2 = $this->pdo->prepare("UPDATE vehicles SET statut = 'disponible' WHERE id = ?");
             $stmt2->execute([$loc['id_vehicle']]);
