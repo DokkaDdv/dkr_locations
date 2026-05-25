@@ -43,7 +43,7 @@ class Location {
              FROM location l
              JOIN vehicles v ON l.id_vehicle = v.id
              JOIN users u ON l.id_user = u.id
-             WHERE l.date_fin >= CURRENT_DATE
+             WHERE l.date_fin > CURRENT_DATE
              ORDER BY l.date_fin ASC"
         );
         return $stmt->fetchAll();
@@ -56,7 +56,7 @@ class Location {
              FROM location l
              JOIN vehicles v ON l.id_vehicle = v.id
              JOIN users u ON l.id_user = u.id
-             WHERE l.date_fin < CURRENT_DATE
+             WHERE l.date_fin <= CURRENT_DATE
              ORDER BY l.date_fin DESC"
         );
         return $stmt->fetchAll();
@@ -65,7 +65,8 @@ class Location {
     public function terminate($id_location) {
         $loc = $this->getById($id_location);
         if ($loc) {
-            $stmt = $this->pdo->prepare("UPDATE location SET date_fin = CURRENT_DATE - INTERVAL '1 day' WHERE id_location = ?");
+            // GREATEST evite de violer la contrainte date_fin >= date_debut
+            $stmt = $this->pdo->prepare("UPDATE location SET date_fin = GREATEST(CURRENT_DATE, date_debut) WHERE id_location = ?");
             $stmt->execute([$id_location]);
             $stmt2 = $this->pdo->prepare("UPDATE vehicles SET statut = 'disponible' WHERE id = ?");
             $stmt2->execute([$loc['id_vehicle']]);
