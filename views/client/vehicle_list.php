@@ -10,7 +10,11 @@
     <div class="header">
         <h1>DKR Locations</h1>
         <div class="user-info">
-            <span>Bonjour, <?php echo htmlspecialchars($_SESSION['user_email']); ?></span>
+            <?php
+                $nomAffiche = trim(($userInfo['prenom'] ?? '') . ' ' . ($userInfo['nom'] ?? ''));
+                $nomAffiche = $nomAffiche ?: $_SESSION['user_email'];
+            ?>
+            <span>Bonjour, <?php echo htmlspecialchars($nomAffiche); ?></span>
             <a href="index.php?logout=1" class="btn btn-secondary">Déconnexion</a>
         </div>
     </div>

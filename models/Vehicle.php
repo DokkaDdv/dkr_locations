@@ -74,11 +74,5 @@ class Vehicle {
         return $stmt->fetchAll();
     }
 
-    // recuperer les reservations d'un vehicule
-    public function getReservations($vehicle_id) {
-        $stmt = $this->pdo->prepare("SELECT r.*, u.email FROM reservations r JOIN users u ON r.user_id = u.id WHERE r.vehicle_id = ?");
-        $stmt->execute([$vehicle_id]);
-        return $stmt->fetchAll();
-    }
 }
 ?>

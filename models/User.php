@@ -90,6 +90,22 @@ class User {
         return $stmt->fetchAll();
     }
 
+    public function updateClient($id, $nom, $prenom, $email, $telephone) {
+        $stmt = $this->pdo->prepare("UPDATE users SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id = ? AND role = 'client'");
+        return $stmt->execute([$nom, $prenom, $email, $telephone, $id]);
+    }
+
+    public function deleteClient($id) {
+        $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ? AND role = 'client'");
+        return $stmt->execute([$id]);
+    }
+
+    public function getClientById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = ? AND role = 'client'");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
     // se deconnecter
     public function logout() {
         session_destroy();

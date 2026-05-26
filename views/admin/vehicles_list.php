@@ -18,6 +18,7 @@
     <div class="container">
         <div class="nav-menu">
             <a href="index.php?page=vehicles_list" class="btn btn-primary">Véhicules</a>
+            <a href="index.php?page=admin_locations" class="btn btn-secondary">Locations</a>
             <a href="index.php?page=admin_clients" class="btn btn-secondary">Clients</a>
         </div>
 

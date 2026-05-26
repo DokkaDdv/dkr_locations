@@ -94,6 +94,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_client'])) {
     }
 }
 
+// modifier un client
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_client'])) {
+    $id        = (int)($_POST['client_id'] ?? 0);
+    $nom       = $_POST['nom'] ?? '';
+    $prenom    = $_POST['prenom'] ?? '';
+    $email     = $_POST['email'] ?? '';
+    $telephone = $_POST['telephone'] ?? '';
+    if ($id && $nom && $prenom && $email) {
+        if ($user->updateClient($id, $nom, $prenom, $email, $telephone)) {
+            header('Location: index.php?page=commercial_clients&message=client_updated');
+            exit;
+        }
+        $error = 'Erreur lors de la modification du client';
+    } else {
+        $error = 'Nom, prénom et email sont obligatoires';
+    }
+}
+
+// supprimer un client
+if (isset($_GET['delete_client'])) {
+    $id = (int)$_GET['delete_client'];
+    if ($locationModel->countByUserId($id) > 0) {
+        $error = 'Impossible de supprimer ce client : il a des locations en base.';
+    } elseif ($user->deleteClient($id)) {
+        header('Location: index.php?page=commercial_clients&message=client_deleted');
+        exit;
+    } else {
+        $error = 'Erreur lors de la suppression du client';
+    }
+}
+
 // modifier vehicle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_vehicle'])) {
     $id = $_POST['id'] ?? 0;
@@ -131,8 +162,12 @@ if ($page === 'commercial_locations') {
     $clients = $user->getClients();
 }
 
+$editClient = null;
 if ($page === 'commercial_clients') {
     $clients = $user->getClients();
+    if (isset($_GET['edit_client'])) {
+        $editClient = $user->getClientById((int)$_GET['edit_client']);
+    }
 }
 
 // messages
@@ -144,6 +179,8 @@ if (isset($_GET['message'])) {
         'cancel_success'         => 'Location annulée, véhicule remis en disponible',
         'update_location_success' => 'Location modifiée avec succès',
         'client_created'   => 'Client créé avec succès',
+        'client_updated'   => 'Client modifié avec succès',
+        'client_deleted'   => 'Client supprimé avec succès',
     ];
     $message = $msgs[$_GET['message']] ?? '';
 }

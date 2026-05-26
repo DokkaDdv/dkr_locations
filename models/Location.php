@@ -94,6 +94,12 @@ class Location {
         return false;
     }
 
+    public function countByUserId($user_id) {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM location WHERE id_user = ?");
+        $stmt->execute([$user_id]);
+        return (int)$stmt->fetchColumn();
+    }
+
     public function calculerMontant($tarif, $date_debut, $date_fin) {
         $jours = (strtotime($date_fin) - strtotime($date_debut)) / 86400 + 1;
         return $tarif * max(1, $jours);

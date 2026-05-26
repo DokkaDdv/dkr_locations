@@ -16,6 +16,7 @@ if (!$user->isLoggedIn() || !$user->isClient()) {
 }
 
 $section = $_GET['section'] ?? 'louer';
+$userInfo = $user->getUserInfo();
 $message = '';
 $error   = '';
 $vehicle_detail = null;

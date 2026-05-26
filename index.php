@@ -144,6 +144,15 @@ switch ($page) {
         require_once __DIR__ . '/views/admin/clients.php';
         break;
 
+    case 'admin_locations':
+        if (!$user->isAdmin()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/AdminController.php';
+        require_once __DIR__ . '/views/admin/locations.php';
+        break;
+
     default:
         require_once __DIR__ . '/controllers/AuthController.php';
         require_once __DIR__ . '/views/login.php';
